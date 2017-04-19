@@ -4,20 +4,21 @@ import simplejson as json
 
 class Light:
 
-    def __init__(self):
+    def __init__(self, default_r=255, default_g=255, default_b=255):
         self.brightness = 0
         unicorn.set_layout(unicorn.AUTO)
         unicorn.rotation(0)
         unicorn.brightness(self.brightness)
         self.width, self.height=unicorn.get_shape()
-        self.r, self.g, self.b = 0, 0, 0
+        self.default_r, self.default_g, self.default_b = default_r, default_g, default_b
+        self.r, self.g, self.b = self.default_r, self.default_g, self.default_b
 
     def turn_off(self):
         self.r, self.g, self.b = 0, 0, 0
         self.set_brightness(0)
 
     def turn_on(self):
-        self.r, self.g, self.b = 255, 255, 255
+        self.r, self.g, self.b = self.default_r, self.default_g, self.default_b
         self.set_brightness(1.0)
 
     def set_brightness(self, brightness):
@@ -32,7 +33,7 @@ class Light:
                 unicorn.set_pixel(x,y, r, g, b)
         unicorn.show()
 
-light = Light()
+light = Light(255, 0, 0)
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
